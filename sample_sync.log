@@ -1,0 +1,7 @@
+2026-04-22 09:11:02 INFO [SYNC] Start exchange batch=2026-04-22T09:11
+2026-04-22 09:11:08 INFO [1C] Exported 245 items
+2026-04-22 09:11:15 WARN [TFLEX] Object Card #A-155 has outdated revision
+2026-04-22 09:11:19 ERROR [PDM_API] HTTP 500 while creating item ext_id=1C-000412
+2026-04-22 09:11:19 ERROR [SYNC] Transaction rollback for ext_id=1C-000412
+2026-04-22 09:11:23 ERROR [DB] Deadlock detected during status update integration_queue
+2026-04-22 09:11:30 INFO [SYNC] Batch finished with errors. success=244 failed=1

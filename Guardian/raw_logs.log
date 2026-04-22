@@ -1,0 +1,5 @@
+[2026-04-22 10:00:05] INFO: Sync started: T-Flex -> 1C.
+[2026-04-22 10:02:15] ERROR: Integration_Error: Attribute 'Hardness_HRC' is missing for Part 'Shaft_001'.
+[2026-04-22 10:05:40] CRITICAL: Database: SQL Deadlock detected in 1C_Exchange_Table. Session 442 terminated.
+[2026-04-22 10:10:12] WARN: T-Flex PLM API response time: 2400ms.
+[2026-04-22 10:15:30] INFO: Exported 142 items successfully.

@@ -1,0 +1,4 @@
+[2026-04-22 11:20:11] ERROR: Mapping_Error: 1C field 'Material_Code' not mapped to T-Flex attribute.
+[2026-04-22 11:21:45] CRITICAL: Queue overflow: 1C_Exchange_Queue size=150000, consumer stalled.
+[2026-04-22 11:22:20] ERROR: Auth_Error: T-Flex API token expired (401 Unauthorized).
+[2026-04-22 11:23:55] CRITICAL: Data_Loss_Risk: Transaction rollback after partial write for document DOC-7781.
