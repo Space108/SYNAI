@@ -22,3 +22,5 @@
 ## Развертывание
 
 Подробная инструкция по развёртыванию: [`DEPLOYMENT.md`](DEPLOYMENT.md).
+
+Критично: `Architect` генерирует `*.spec.ts` (TypeScript/Node.js), поэтому для запуска тестов нужны Node.js + Playwright (`npm install`, `npx playwright install`).

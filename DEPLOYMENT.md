@@ -5,6 +5,7 @@
 ## Требования
 
 - Python 3.11+
+- Node.js 18+ (включая `npm` и `npx`)
 - Доступ к Groq Cloud и API-ключ
 
 ## 1) Клонирование
@@ -36,7 +37,7 @@ Copy-Item .env.example .env
 GROQ_API_KEY=your_key_here
 ```
 
-## 3) Установка зависимостей и проверка Guardian
+## 3) Установка Python-зависимостей и проверка Guardian
 
 - Linux / macOS:
 
@@ -52,13 +53,28 @@ py -3.11 -m venv .venv; .\.venv\Scripts\Activate.ps1; pip install -U pip; pip in
 
 После запуска отчеты появятся в `Guardian/reports/`.
 
+Важно: `batch_check.py` анализирует все `*.log` из папки `Guardian/test_logs`. Убедитесь, что там есть образцы логов (например: `critical.log`, `mixed.log`, `empty.log`) или укажите свою директорию через `--input-dir`.
+
 ## 4) Генерация интеграционного теста Architect
 
 ```bash
 python Architect/test_generator.py
 ```
 
-Результат: `Architect/generated_integration_test.spec.ts`.
+По умолчанию генератор читает ТЗ из `Architect/requirements.txt` (`DEFAULT_SPEC_PATH`) и сохраняет результат в `Architect/generated_integration_test.spec.ts`.
+
+## 5) Установка Playwright для запуска `.spec.ts`
+
+Сгенерированный файл — это TypeScript-тест для Node.js, поэтому нужен Playwright runtime и браузеры.
+
+Из корня проекта:
+
+```bash
+npm install
+npx playwright install
+```
+
+После этого можно запускать тесты в вашем Playwright-проекте (или перенести `Architect/generated_integration_test.spec.ts` в каталог тестов Playwright).
 
 ## Дополнительно: запуск через единый CLI
 
