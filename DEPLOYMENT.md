@@ -5,7 +5,7 @@
 ## Требования
 
 - Python 3.11+
-- Node.js 18+ (включая `npm` и `npx`)
+- Node.js 18+ (необходим для запуска тестов Architect, включая `npm` и `npx`)
 - Доступ к Groq Cloud и API-ключ
 
 ## 1) Клонирование
@@ -35,20 +35,24 @@ Copy-Item .env.example .env
 
 ```env
 GROQ_API_KEY=your_key_here
+GUARDIAN_LOGS_DIR=Guardian/test_logs
 ```
+
+`GUARDIAN_LOGS_DIR` указывает, где `Guardian/batch_check.py` ищет входные `*.log`.  
+Если путь неверный или папка пустая, скрипт вернет ошибку отсутствия данных.
 
 ## 3) Установка Python-зависимостей и проверка Guardian
 
 - Linux / macOS:
 
 ```bash
-python3.11 -m venv .venv && source .venv/bin/activate && pip install -U pip && pip install -r requirements.txt && python Guardian/batch_check.py
+python3.11 -m venv .venv && source .venv/bin/activate && pip install -U pip && pip install -r requirements.txt && npm install && npx playwright install && python Guardian/batch_check.py
 ```
 
 - Windows PowerShell:
 
 ```powershell
-py -3.11 -m venv .venv; .\.venv\Scripts\Activate.ps1; pip install -U pip; pip install -r requirements.txt; python Guardian/batch_check.py
+py -3.11 -m venv .venv; .\.venv\Scripts\Activate.ps1; pip install -U pip; pip install -r requirements.txt; npm install; npx playwright install; python Guardian/batch_check.py
 ```
 
 После запуска отчеты появятся в `Guardian/reports/`.
@@ -63,20 +67,15 @@ python Architect/test_generator.py
 
 По умолчанию генератор читает ТЗ из `Architect/requirements.txt` (`DEFAULT_SPEC_PATH`) и сохраняет результат в `Architect/generated_integration_test.spec.ts`.
 
-## 5) Установка Playwright для запуска `.spec.ts`
-
-Сгенерированный файл — это TypeScript-тест для Node.js, поэтому нужен Playwright runtime и браузеры.
-
-Из корня проекта:
+Для запуска сгенерированного файла используйте:
 
 ```bash
-npm install
-npx playwright install
+npx playwright test Architect/generated_integration_test.spec.ts
 ```
 
-После этого можно запускать тесты в вашем Playwright-проекте (или перенести `Architect/generated_integration_test.spec.ts` в каталог тестов Playwright).
-
 ## Дополнительно: запуск через единый CLI
+
+В проекте есть `src/__init__.py`, поэтому запуск через модульный формат корректен.
 
 - Анализ конкретного лога:
 

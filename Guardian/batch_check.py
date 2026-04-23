@@ -1,13 +1,24 @@
 from __future__ import annotations
 
 import argparse
+import os
 from pathlib import Path
+
+from dotenv import load_dotenv
 
 from classifier import run_log_analysis
 
 _GUARDIAN_DIR = Path(__file__).resolve().parent
-TEST_LOGS_DIR = _GUARDIAN_DIR / "test_logs"
 REPORTS_DIR = _GUARDIAN_DIR / "reports"
+
+
+def _default_logs_dir() -> Path:
+    """Возвращает папку логов из .env или стандартный каталог Guardian/test_logs."""
+    load_dotenv()
+    raw = os.getenv("GUARDIAN_LOGS_DIR", "").strip()
+    if raw:
+        return Path(raw)
+    return _GUARDIAN_DIR / "test_logs"
 
 
 def _build_parser() -> argparse.ArgumentParser:
@@ -19,7 +30,7 @@ def _build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--input-dir",
         type=Path,
-        default=TEST_LOGS_DIR,
+        default=_default_logs_dir(),
         help="Папка с входными .log файлами (по умолчанию: test_logs)",
     )
     parser.add_argument(
