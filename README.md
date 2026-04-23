@@ -18,3 +18,7 @@
 - Python
 - Playwright
 - Llama 3.3
+
+## Развертывание
+
+Подробная инструкция по развёртыванию: [`DEPLOYMENT.md`](DEPLOYMENT.md).
