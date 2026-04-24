@@ -1,7 +1,7 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 
 test.describe('Синхронизация состава изделия (BOM) между T-Flex и 1С', () => {
-  let page;
+  let page: Page;
 
   test.beforeEach(async ({ page: browserPage }) => {
     page = browserPage;
@@ -26,13 +26,13 @@ test.describe('Синхронизация состава изделия (BOM) м
 
     test.step('Проверить, что новые позиции созданы в 1С как "Черновик"', async () => {
       await page.waitForSelector('text="Черновик"');
-      const newPositionCount = await page.$$eval('text="Черновик"', (elements) => elements.length);
+      const newPositionCount = await page.$$eval('text="Черновик"', (elements: Element[]) => elements.length);
       expect(newPositionCount).toBeGreaterThan(0);
     });
 
     test.step('Проверить, что измененные количества перенесены в спецификацию 1С', async () => {
       await page.waitForSelector('text="Спецификация"');
-      const specificationCount = await page.$$eval('text="Спецификация"', (elements) => elements.length);
+      const specificationCount = await page.$$eval('text="Спецификация"', (elements: Element[]) => elements.length);
       expect(specificationCount).toBeGreaterThan(0);
     });
   });
@@ -56,10 +56,14 @@ test.describe('Синхронизация состава изделия (BOM) м
     test.step('Проверить, что позиция без атрибута Hardness_HRC отмечена как ошибка валидации', async () => {
       try {
         await page.waitForSelector('text="Ошибка валидации"');
-        const errorCount = await page.$$eval('text="Ошибка валидации"', (elements) => elements.length);
+        const errorCount = await page.$$eval('text="Ошибка валидации"', (elements: Element[]) => elements.length);
         expect(errorCount).toBeGreaterThan(0);
       } catch (error) {
-        expect(error.message).toContain('TimeoutError');
+        if (error instanceof Error) {
+          expect(error.message).toContain('TimeoutError');
+          return;
+        }
+        throw error;
       }
     });
   });
@@ -88,9 +92,9 @@ test.describe('Синхронизация состава изделия (BOM) м
 
     test.step('Проверить, что не появляется дублей позиций', async () => {
       await page.waitForSelector('text="Отчет выполнения"');
-      const positionCount = await page.$$eval('text="Позиция"', (elements) => elements.length);
+      const positionCount = await page.$$eval('text="Позиция"', (elements: Element[]) => elements.length);
       expect(positionCount).toBeGreaterThan(0);
-      const duplicateCount = await page.$$eval('text="Дубликат"', (elements) => elements.length);
+      const duplicateCount = await page.$$eval('text="Дубликат"', (elements: Element[]) => elements.length);
       expect(duplicateCount).toBe(0);
     });
   });
